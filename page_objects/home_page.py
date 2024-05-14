@@ -1,5 +1,4 @@
 import allure
-from selenium.webdriver import ActionChains
 
 from page_objects.base_page import BasePage
 from locators.home_locators import HomeLocators as home_locators
@@ -14,6 +13,7 @@ class HomePage(BasePage):
     def tap_on_construct(self, password_recovery):
         password_recovery.go_to_personal_account()
         self.find_element(home_locators.MY_CONSTRUCTOR).click()
+        return self.find_element(home_locators.CONSTRUCTOR_TITLE)
 
     @allure.step("Тапаем на кнопку Ленты заказов ")
     def tap_on_order_list_button(self):
@@ -37,9 +37,7 @@ class HomePage(BasePage):
     def add_items_in_order(self):
         self.wait_element_visibility_of_element_located(home_locators.COUNTER_BUN)
         counter_ingredient = self.get_text(home_locators.COUNTER_BUN)
-        element = self.find_element(home_locators.BUN)
-        add_counter_element = self.find_element(home_locators.ADDITION_AREA_COUNTER)
-        ActionChains(self.driver).drag_and_drop(element, add_counter_element).perform()
+        self.drag_and_drop(home_locators.BUN, home_locators.ADDITION_AREA_COUNTER)
         new_counter_ingredient = self.get_text(home_locators.COUNTER_BUN)
         return counter_ingredient, new_counter_ingredient
 

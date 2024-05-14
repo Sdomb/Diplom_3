@@ -1,6 +1,6 @@
 import allure
-import random
-import string
+
+from selenium.webdriver import ActionChains
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -37,26 +37,10 @@ class BasePage:
     def send_keys(self, locator, text):
         self.find_element(locator).send_keys(text)
 
-    @staticmethod
-    def generate_random_string(length):
-        letters = string.ascii_lowercase
-        random_string = "".join(random.choice(letters) for i in range(length))
-        return random_string
-
-    @staticmethod
-    def generate_user_data():
-        email = BasePage.generate_random_string(6) + '@yandex.ru'
-        password = BasePage.generate_random_string(10)
-        name = BasePage.generate_random_string(10)
-        payload = {
-            "email": email,
-            "password": password,
-            "name": name
-        }
-
-        return payload
-
     @allure.step("Ищем все элементы локатора ")
     def find_all(self, locator):
         WebDriverWait(self.driver, 15).until(expected_conditions.presence_of_element_located(locator))
         return self.driver.find_elements(*locator)
+
+    def drag_and_drop(self, point_from, point_where):
+        ActionChains(self.driver).drag_and_drop(self.find_element(point_from),self.find_element(point_where)).perform()

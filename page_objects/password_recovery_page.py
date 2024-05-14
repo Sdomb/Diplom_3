@@ -1,6 +1,9 @@
 import allure
 
+from helpers import Helpers
 from page_objects.base_page import BasePage
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.wait import WebDriverWait
 from locators.password_recovery_locators import PersonalAccount as lk
 
 
@@ -17,19 +20,22 @@ class PasswordRecoveryPage(BasePage):
     def tap_and_wait_recovery_button(self):
         self.wait_element_visibility_of_element_located(lk.RECOVERY_PASS_LINK_BUTTON)
         self.click_on_element(lk.RECOVERY_PASS_LINK_BUTTON)
+        return self.find_element(lk.RECOVERY_PASS_HEADER)
 
     @allure.title("Вводим эмайл в поле ввода и тапаем по кнопке восстановления пароля")
-    def input_email_and_push_recovery_btn(self):
+    def input_email_and_push_recovery_btn(self, driver):
         self.wait_element_visibility_of_element_located(lk.EMAIL_INPUT)
         self.click_on_element(lk.EMAIL_INPUT)
-        user_data = self.generate_user_data()
+        user_data = Helpers.generate_user_data()
         self.send_keys(lk.EMAIL_INPUT, user_data['email'])
         self.click_on_element(lk.RECOVERY_BUTTON)
+        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located(lk.PASSWORD_INPUT))
+        return self.find_element(lk.PASSWORD_INPUT)
 
     @allure.title("Ищем инпут для пароля, и вводим туда рандомный пароль")
-    def find_pass_input_and_enter_pass(self):
+    def find_pass_input_and_enter_pass(self, ):
         self.wait_element_visibility_of_element_located(lk.PASSWORD_INPUT)
-        user_data = self.generate_user_data()
+        user_data = Helpers.generate_user_data()
         self.send_keys(lk.PASSWORD_INPUT, user_data['password'])
 
     @allure.step("Тапаем на иконку глаза рядом с инпутом пароля, чтобы сделать его видимым")

@@ -1,9 +1,8 @@
 import allure
-import requests
 
+from helpers import Helpers
 from page_objects.base_page import BasePage
 from locators.private_office_locators import PrivateOffice as office_locators
-from data import Ingredients, API
 
 
 class PrivateOfficePage(BasePage):
@@ -28,19 +27,16 @@ class PrivateOfficePage(BasePage):
 
     @allure.step("Авторизоваться и сделать заказы")
     def auth_and_change_order(self, create_user, password_recovery):
+        helpers = Helpers()
         password_recovery.go_to_personal_account()
         user_date, resp = create_user
         self.send_keys(office_locators.EMAIL_INPUT, user_date['email'])
         self.send_keys(office_locators.PASSWORD_INPUT, user_date['password'])
         self.click_on_element(office_locators.LOGIN_BUTTON)
         self.wait_element_visibility_of_element_located(office_locators.CREATE_ORDER_BUTTON)
-        token = resp.json().get("accessToken")
-        ingredients = {
-            "ingredients": [Ingredients.BUN, Ingredients.KOKLETA, Ingredients.MEAT]
-        }
-        headers = {"Content-type": "application/json", "Authorization": f'{token}'}
-        response = requests.post(API.CREATE_ORDER, headers=headers, json=ingredients)
-        number = str(response.json()['order']['number'])
+        number = helpers.created_orders(resp)
+        number = str(number.json()['order']['number'])
+
         return user_date['email'], user_date['password'], number
 
     @allure.title("Открыть личный кабинет и тапнуть по истории заказов")

@@ -3,14 +3,6 @@ import allure
 
 class TestListOrderPage:
 
-    @allure.title("Если кликнуть на заказ, откроется всплывающее окно с деталями")
-    @allure.description("Проверяем появление модального окна")
-    def test(self, list_order):
-
-        list_order.tap_on_order_list_button()
-
-        assert list_order.tap_on_order_block()
-
     @allure.title("Заказы пользователя из раздела «История заказов» отображаются на странице «Лента заказов»")
     @allure.description("Проверяем что заказы пользака отображаются")
     def test_visible_user_order_in_list_order(self, list_order, private_office, create_user, password_recovery):

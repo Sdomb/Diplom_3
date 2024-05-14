@@ -2,7 +2,7 @@ import pytest
 import requests
 from selenium import webdriver
 from data import API
-from page_objects.base_page import BasePage
+from helpers import Helpers
 from page_objects.home_page import HomePage
 from page_objects.list_order_page import ListOrderPage
 from page_objects.password_recovery_page import PasswordRecoveryPage
@@ -25,8 +25,8 @@ def driver(request):
 
 @pytest.fixture(scope='function')
 def create_user():
-    base = BasePage(driver)
-    user_date = base.generate_user_data()
+    helpers = Helpers()
+    user_date = helpers.generate_user_data()
     resp = requests.post(API.CREATE_USER, data=user_date)
     token = resp.json().get("accessToken")
     yield user_date, resp

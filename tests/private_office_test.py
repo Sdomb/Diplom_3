@@ -1,7 +1,6 @@
 import allure
 
 from data import Url
-from locators.password_recovery_locators import PersonalAccount as lk
 
 
 class TestPrivateOffice:
@@ -11,7 +10,8 @@ class TestPrivateOffice:
     def test_tap_on_private_office_button(self, driver, password_recovery):
 
         password_recovery.go_to_personal_account()
-        assert driver.find_element(*lk.LOGIN_HEADER_IN_MY_OFFICE)
+
+        assert password_recovery.get_current_url() == Url.LOGIN_PAGE
 
     @allure.title("Переход в раздел «История заказов»")
     @allure.description("Проверяем открытие страницы Истории заказов у авторизованного пользователя ")

@@ -1,6 +1,5 @@
 import allure
 from data import Url
-from locators.home_locators import HomeLocators as home_locators
 
 
 class TestHomePage:
@@ -9,9 +8,7 @@ class TestHomePage:
     @allure.description("Проверяем работу кнопки Конструктор в хедере")
     def test_switch_on_construct_by_tap_button(self, home, driver, password_recovery):
 
-        home.tap_on_construct(password_recovery)
-
-        assert driver.find_element(*home_locators.CONSTRUCTOR_TITLE)
+        assert home.tap_on_construct(password_recovery)
 
     @allure.title("Переход по клику на «Лента заказов»")
     @allure.description("Проверяем работу кнопки Лента заказов")
