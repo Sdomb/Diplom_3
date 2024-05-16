@@ -29,7 +29,7 @@ class PasswordRecoveryPage(BasePage):
         user_data = Helpers.generate_user_data()
         self.send_keys(lk.EMAIL_INPUT, user_data['email'])
         self.click_on_element(lk.RECOVERY_BUTTON)
-        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located(lk.PASSWORD_INPUT))
+        self.wait_element_visibility_of_element_located(lk.PASSWORD_INPUT)
         return self.find_element(lk.PASSWORD_INPUT)
 
     @allure.title("Ищем инпут для пароля, и вводим туда рандомный пароль")

@@ -19,10 +19,10 @@ class ListOrderLocators:
     IND_ORDER_ALL_TIME = (By.XPATH, ".//div/div[2]/p[2]")
 
     """Счетчик сделанных заказов за все сегодня"""
-    IND_ORDER_TODAY_TIME = (By.XPATH, ".//div/div[3]/p[2]")
+    IND_ORDER_TODAY_TIME = (By.XPATH, "//p[contains(@class, 'text_type_main') and contains(text(), 'Выполнено за сегодня')]/following-sibling::p[contains(@class, 'text_type_digits-large')]")
 
     """Секция готовящихся заказов"""
-    ORDERS_PROGRESS_SECTION = (By.XPATH, ".//div/div[1]//ul[2]")
+    ORDERS_PROGRESS_SECTION = (By.XPATH, "//ul[contains(@class, 'OrderFeed_orderListReady')]//li[contains(@class, 'text_type_digits-default')]")
 
     """Текст в секции готовящихся заказов"""
     EMPTY_ORDERS_PROGRESS_SECTION = (By.XPATH, "//*[text() = 'Все текущие заказы готовы!']")
